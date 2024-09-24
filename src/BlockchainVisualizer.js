@@ -24,6 +24,8 @@ const BlockchainVisualizer = ({ blockchain, latestAction }) => {
 const AnimatedBlock = ({ block, index, isLast, isNew }) => {
     const isTampered = block.data && block.data.action === 'TAMPERED';
     const isDeleted = block.data && block.data.action === 'DELETE';
+    const isUpdated = block.data && block.data.action === 'UPDATE';
+    const isCreated = block.data && block.data.action === 'CREATE';
 
     const props = useSpring({
         from: { opacity: 0, transform: 'translateY(50px)' },
@@ -35,6 +37,8 @@ const AnimatedBlock = ({ block, index, isLast, isNew }) => {
     const getBlockStyle = () => {
         if (isTampered) return 'border-red-500 bg-red-100';
         if (isDeleted) return 'border-red-300 bg-red-50';
+        if (isUpdated) return 'border-yellow-300 bg-yellow-50';
+        if (isCreated) return 'border-green-300 bg-green-50';
         return 'border-gray-300 bg-white';
     };
 
@@ -56,6 +60,12 @@ const AnimatedBlock = ({ block, index, isLast, isNew }) => {
                 )}
                 {isDeleted && (
                     <p className="mt-2 text-red-500 font-semibold">This block represents a DELETE action</p>
+                )}
+                {isUpdated && (
+                    <p className="mt-2 text-yellow-600 font-semibold">This block represents an UPDATE action</p>
+                )}
+                {isCreated && (
+                    <p className="mt-2 text-green-600 font-semibold">This block represents a CREATE action</p>
                 )}
             </div>
             {!isLast && (
